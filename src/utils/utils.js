@@ -14,7 +14,7 @@ export const filterOrdersByPrice = (orderList, searchTerm) => {
 
 const priceMatchesSearch = (price=0, searchTerm='') => {
     let searchTermCharacters = searchTerm;
-    let priceCharacters = price?.toString().split('').slice(0,searchTermCharacters.length+1);
+    let priceCharacters = price?.toString().split('').slice(0,searchTermCharacters.length);
     console.log(priceCharacters);
  
     return priceCharacters.join('').includes(searchTerm);
