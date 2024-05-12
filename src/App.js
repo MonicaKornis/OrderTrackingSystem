@@ -38,11 +38,6 @@ function App() {
     };
   }, []);
 
-  // useEffect(() => {
-    // let filteredList = filterOrdersByPrice(orderList.orders.byIds, searchQuery);
-    // setFilteredList(filteredList);
-  // }, [searchQuery])
-
   const handleSearchInputChange = (e) => {
     setSearchQuery(e.target.value)
   }
