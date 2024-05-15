@@ -2,7 +2,6 @@ export const filterOrdersByPrice = (orderList, searchTerm) => {
     const orderKeys = Object.keys(orderList);
     const filtered = {}
     orderKeys.forEach(key => {
-        console.log(orderList[key])
         let currentOrderPrice = orderList[key].price;
         if(priceMatchesSearch(currentOrderPrice, searchTerm)) filtered[key] = orderList[key];
     });
@@ -15,7 +14,6 @@ export const filterOrdersByPrice = (orderList, searchTerm) => {
 const priceMatchesSearch = (price=0, searchTerm='') => {
     let searchTermCharacters = searchTerm;
     let priceCharacters = price?.toString().split('').slice(0,searchTermCharacters.length);
-    console.log(priceCharacters);
  
     return priceCharacters.join('').includes(searchTerm);
 }
@@ -40,3 +38,15 @@ export const addNewOrders = (existingOrders, newOrders) => {
     }}
 }
 //normalize state
+
+export const  onRenderCallback = (
+    id,
+    phase,
+    actualDuration,
+    baseDuration,
+    startTime,
+    commitTime,
+    interactions
+  ) => {
+    console.log(`Profiler [${id}] - ${phase} - ${actualDuration} ms`);
+  }

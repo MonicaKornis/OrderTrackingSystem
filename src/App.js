@@ -1,12 +1,14 @@
-import {useState, useEffect} from 'react';
+import {useState, useEffect, Profiler} from 'react';
 import { socket } from './socket';
 import logo from './logo.svg';
-import { addNewOrders } from './utils/utils'
+import { addNewOrders, onRenderCallback } from './utils/utils'
 import Table from './components/Table';
 import './App.css';
 import SearchBar from './components/SearchBar';
 import { filterOrdersByPrice } from './utils/utils';
 import {useSearchQuery} from './hooks/hooks';
+
+
 
 function App() {
   const [filteredList, setFilteredList] = useState(null)
@@ -39,6 +41,7 @@ function App() {
   }, []);
 
   const handleSearchInputChange = (e) => {
+    // debugger
     setSearchQuery(e.target.value)
   }
 
@@ -47,6 +50,7 @@ function App() {
 
 
   return (
+    <Profiler id='App' onRender={onRenderCallback}>
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
@@ -63,7 +67,10 @@ function App() {
 
       </header>
     </div>
+    </Profiler>
   );
 }
 
 export default App;
+
+//only updating table when there is a search term 

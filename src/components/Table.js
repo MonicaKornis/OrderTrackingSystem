@@ -1,8 +1,8 @@
-import { formatNumberToPrice }from '../utils/utils';
+import TableRow from './TableRow'
+import React from 'react';
 
-const Table = ({orderList}) => {
+const Table = React.memo(({orderList}) => {
     // const { orders : {byIds: list} } = orderorderList? orderorderList: {};
-    // console.log(orderList)
     const firstOrder = orderList && Object.values(orderList)[0];
     const columns = firstOrder && Object.keys(firstOrder);
     const header = firstOrder && columns.map((colName, i) => {
@@ -15,17 +15,7 @@ const Table = ({orderList}) => {
     const rows = allOrders?.map((order) => {
         
         return (
-            <tr key={order.id}>
-                {columns.map((columnTitle) => {
-                    let value = order[columnTitle];
-                    if(columnTitle == 'price') value = formatNumberToPrice(value);
-
-                    
-                    return (
-                        <td>{value}</td>
-                    )
-                })}
-            </tr>
+            <TableRow order={order} columns={columns}/>
         )
     })
     return(
@@ -43,6 +33,17 @@ const Table = ({orderList}) => {
             </tbody>
         </table>
     )
-};
+}
+
+);
 
 export default Table; 
+
+// (prevProps, nextProps) => {
+//     console.log('COMPARE')
+//     if (JSON.stringify(prevProps) === JSON.stringify(nextProps) ) {
+//         return true; // props are equal
+
+//     }
+//     return false; // props are not equal -> update the component
+// }
