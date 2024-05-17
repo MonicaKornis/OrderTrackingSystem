@@ -1,13 +1,31 @@
-import {useState, useEffect, Profiler} from 'react';
+import {useState, useEffect, useCallback} from 'react';
+import styled from 'styled-components';
 import { socket } from './socket';
-import logo from './logo.svg';
 import { addNewOrders, onRenderCallback } from './utils/utils'
 import Table from './components/Table';
-import './App.css';
 import SearchBar from './components/SearchBar';
-import { filterOrdersByPrice } from './utils/utils';
 import {useSearchQuery} from './hooks/hooks';
 
+const AppContainer = styled.div`
+  font-family: "Open Sans", sans-serif;
+  padding: 50px;
+`
+
+const HeaderSection = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  padding-bottom: 50px;
+  border-bottom: 2px solid #ccc;
+`
+
+const HeaderText = styled.div`
+  font-weight: 500;
+`
+
+const CountNumber = styled.span`
+  font-weight: 700;
+`
 
 
 function App() {
@@ -40,37 +58,26 @@ function App() {
     };
   }, []);
 
-  const handleSearchInputChange = (e) => {
-    // debugger
+  const handleSearchInputChange = useCallback((e) => {
     setSearchQuery(e.target.value)
-  }
+  }, [searchQuery])
 
   useSearchQuery(searchQuery, setFilteredList, orderList)
   
-
+  let ordersToDisplay = searchQuery ? filteredList?.orders?.byIds : orderList?.orders?.byIds;
 
   return (
-    <Profiler id='App' onRender={onRenderCallback}>
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-        <SearchBar placeholderText='Search Orders By Price' value={searchQuery} handleChange={handleSearchInputChange}/>
-        <Table orderList={searchQuery ? filteredList?.orders?.byIds : orderList?.orders?.byIds}/>
-
-      </header>
-    </div>
-    </Profiler>
+    <AppContainer>
+        <HeaderSection>
+          <div>
+            <HeaderText>Order Count</HeaderText>
+            <CountNumber>{Object.values(ordersToDisplay).length}</CountNumber><span> total orders</span> 
+          </div>
+          <SearchBar placeholderText='Search Orders By Price' value={searchQuery} handleChange={handleSearchInputChange}/>
+        </HeaderSection>
+        <Table orderList={ordersToDisplay}/>
+    </AppContainer>
   );
 }
 
 export default App;
-
-//only updating table when there is a search term 

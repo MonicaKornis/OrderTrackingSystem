@@ -1,13 +1,22 @@
 import TableRow from './TableRow'
 import React from 'react';
+import styled from 'styled-components';
+import {removeUnderscore } from '../utils/utils';
+
+const OrderTable = styled.table`
+    width: 98%;
+`;
+
+const Column = styled.th`
+    padding: 10px;
+`;
 
 const Table = React.memo(({orderList}) => {
-    // const { orders : {byIds: list} } = orderorderList? orderorderList: {};
     const firstOrder = orderList && Object.values(orderList)[0];
     const columns = firstOrder && Object.keys(firstOrder);
     const header = firstOrder && columns.map((colName, i) => {
        return (
-        <th scope="col" style={{ "border": "1px solid white", "padding": "5px"}} key={i} scope='col'>{colName}</th>
+        <Column scope="col" key={i}>{removeUnderscore(colName)}</Column>
        )
     });
 
@@ -19,10 +28,7 @@ const Table = React.memo(({orderList}) => {
         )
     })
     return(
-        <table>
-            <caption>
-                Orders In The Last Day
-            </caption>
+        <OrderTable>
             <thead>
                 <tr>
                 {header}
@@ -31,19 +37,15 @@ const Table = React.memo(({orderList}) => {
             <tbody>
             {rows}
             </tbody>
-        </table>
+        </OrderTable>
     )
+},
+(prevProps, nextProps) => {
+    if (JSON.stringify(prevProps) === JSON.stringify(nextProps) ) {
+        return true; 
+    } //using stringify since key order never changes 
+    return false;
 }
-
 );
 
 export default Table; 
-
-// (prevProps, nextProps) => {
-//     console.log('COMPARE')
-//     if (JSON.stringify(prevProps) === JSON.stringify(nextProps) ) {
-//         return true; // props are equal
-
-//     }
-//     return false; // props are not equal -> update the component
-// }

@@ -26,7 +26,7 @@ export const formatNumberToPrice = (number) => {
 } // written under the assumption that the last two digits for the price represent cents
 
 export const addNewOrders = (existingOrders, newOrders) => {
-    
+    console.log(newOrders)
     let orders = existingOrders?.orders?.byIds || {};
 
     newOrders.forEach((order) => {
@@ -34,19 +34,8 @@ export const addNewOrders = (existingOrders, newOrders) => {
     })
     
     return { orders: {
-        byIds: orders
+        byIds: structuredClone(orders)
     }}
 }
-//normalize state
 
-export const  onRenderCallback = (
-    id,
-    phase,
-    actualDuration,
-    baseDuration,
-    startTime,
-    commitTime,
-    interactions
-  ) => {
-    console.log(`Profiler [${id}] - ${phase} - ${actualDuration} ms`);
-  }
+export const removeUnderscore = (string) => string.split("_").join(' ')

@@ -1,5 +1,7 @@
 import React from 'react';
+import TableCell from './TableCell';
 import { formatNumberToPrice }from '../utils/utils';
+
 
 const TableRow = React.memo(({order, columns}) => {
     return (
@@ -7,10 +9,8 @@ const TableRow = React.memo(({order, columns}) => {
                 {columns.map((columnTitle) => {
                     let value = order[columnTitle];
                     if(columnTitle == 'price') value = formatNumberToPrice(value);
-
-                    
                     return (
-                        <td>{value}</td>
+                        <TableCell value={value} columnTitle={columnTitle}/>
                     )
                 })}
             </tr>
